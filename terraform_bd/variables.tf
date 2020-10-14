@@ -3,7 +3,7 @@ variable "profile_name" {
 	description = "Il profilo con cui connettersi tra le credenziali di AWS"
 }
 variable "AWS_credentials_path" {
-	default     = "/home/tatalessap/.aws/credentials"
+	default     = "/home/user/.aws/credentials"
 	description = "Path di riferimento per le credenziali di AWS"
 }
 
