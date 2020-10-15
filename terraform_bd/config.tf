@@ -41,7 +41,7 @@ resource "aws_iam_role" "test_role" {
 
   assume_role_policy = <<EOF
 {
-  "Version": "2012-10-17",
+  "Version": "",
   "Statement": [
     {
       "Action": "sts:AssumeRole",
@@ -72,7 +72,7 @@ resource "aws_iam_role_policy" "test_policy" {
 
   policy = <<EOF
 {
-  "Version": "2012-10-17",
+  "Version": "",
   "Statement": [
     {
       "Action": [
