@@ -22,7 +22,6 @@ echo export PATH='$PATH':/home/ubuntu/hadoop/bin >> /home/ubuntu/.profile
 echo export HADOOP_CONF_DIF=/home/ubuntu/hadoop/etc/hadoop >> /home/ubuntu/.profile
 
 source /home/ubuntu/.profile
-echo "######################### Installazione Hadoop completata #########################"
 
 # Creazione file template da modificare in seguito
 echo | sudo tee -a /etc/hosts > /dev/null
@@ -92,14 +91,10 @@ echo "</property>" | sudo tee -a $HADOOP_CONF_DIF/hdfs-site.xml > /dev/null
 echo "</configuration>" | sudo tee -a $HADOOP_CONF_DIF/hdfs-site.xml > /dev/null
 
 sudo mkdir -p $HADOOP_HOME/data/hdfs/datanode
-echo echo "######################### Hadoop Settato #########################"
-
 
 sudo chown -R ubuntu $HADOOP_HOME
 
 # Spark setup
-# Spark setup
-
 wget -q https://downloads.apache.org/spark/spark-2.4.7/spark-2.4.7-bin-hadoop2.7.tgz > /dev/null
 tar xzf spark-2.4.7-bin-hadoop2.7.tgz > /dev/null
 sudo mv ./spark-2.4.7-bin-hadoop2.7 /home/ubuntu/spark
@@ -109,7 +104,6 @@ sudo cp spark/conf/spark-env.sh.template spark/conf/spark-env.sh
 echo export SPARK_MASTER_HOST=\"$PUBLIC_DNS\" | sudo tee -a spark/conf/spark-env.sh > /dev/null
 echo export HADOOP_CONF_DIR=\"home/ubuntu/hadoop/conf\" | sudo tee -a spark/conf/spark-env.sh > /dev/null
 echo export PYSPARK_PYTHON=python3 | sudo tee -a spark/conf/spark-env.sh > /dev/null
-echo "######################### Spark Settato #########################"
 
 # Setupping progetto e librerie
 
@@ -127,7 +121,6 @@ sudo pip3 --no-cache-dir install statistics > /dev/null
 
 sudo pip3 install matplotlib
 sudo pip3 install pickle5 
-sudo pip3 install 
 sudo pip3 install scipy
 
 
@@ -143,7 +136,4 @@ mv graphframes-0.8.1-spark2.4-s_2.11.jar spark/jars
 
 wget http://dl.bintray.com/spark-packages/maven/graphframes/graphframes/0.8.1-spark2.4-s_2.11/graphframes-0.8.1-spark2.4-s_2.11.jar
 
-#sudo spark/bin/spark-shell --packages graphframes:graphframes:0.8.1-spark2.4-s_2.11
-
-#sudo spark/bin/pyspark --packages graphframes:graphframes:0.7.0-spark2.3-s_2.11
-echo "######################### Macchina pronta #########################"
+echo "ok"
