@@ -1,15 +1,13 @@
 #! /bin/bash
 cd /home/ubuntu
 sudo apt-get update -y > /dev/null
-echo "---> Update completato"
 sudo apt-get upgrade -y > /dev/null
-echo "---> Upgrade completato"
 
 PUBLIC_DNS=$( curl http://169.254.169.254/latest/meta-data/public-hostname )
 PEM_FILE=$( ls .ssh | grep ".pem" )
 
 # Hadoop setup
-echo "######################### Inizio installazione java e Hadoop #########################"
+echo "Installazione Java Hadoop"
 sudo apt-get install -y openjdk-8-jdk > /dev/null
 wget -q https://www-us.apache.org/dist/hadoop/common/hadoop-2.7.7/hadoop-2.7.7.tar.gz > /dev/null
 sudo tar zxf hadoop-2.7.7.tar.gz > /dev/null
@@ -24,7 +22,6 @@ echo export PATH='$PATH':/home/ubuntu/hadoop/bin >> /home/ubuntu/.profile
 echo export HADOOP_CONF_DIF=/home/ubuntu/hadoop/etc/hadoop >> /home/ubuntu/.profile
 
 source /home/ubuntu/.profile
-echo "######################## Installazione di Hadoop completata ###########################"
 
 # Aggiornamento file config della cartella .ssh
 echo Host namenode >> /home/ubuntu/.ssh/config
@@ -66,9 +63,6 @@ echo "IP.SL.AV.E2 datanode3" | sudo tee -a /etc/hosts > /dev/null
 # Creazione chiavi ssh
 ssh-keygen -qq -f /home/ubuntu/.ssh/id_rsa -t rsa -P ''
 cat /home/ubuntu/.ssh/id_rsa.pub >> /home/ubuntu/.ssh/authorized_keys
-#---> ssh datanode2 'cat >> /home/ubuntu/.ssh/authorized_keys'< /home/ubuntu/.ssh/id_rsa.pub
-#---> ssh datanode3 'cat >> /home/ubuntu/.ssh/authorized_keys'< /home/ubuntu/.ssh/id_rsa.pub
-#---> ssh datanode4 'cat >> /home/ubuntu/.ssh/authorized_keys'< /home/ubuntu/.ssh/id_rsa.pub
 
 # Configurazione files Hadoop
 sed -i 's+${JAVA_HOME}+/usr/lib/jvm/java-8-openjdk-amd64+g' $HADOOP_CONF_DIF/hadoop-env.sh
@@ -137,19 +131,10 @@ sudo sed -i '$d' $HADOOP_CONF_DIF/slaves
 echo "datanode1" | sudo tee -a $HADOOP_CONF_DIF/slaves > /dev/null
 echo "datanode2" | sudo tee -a $HADOOP_CONF_DIF/slaves > /dev/null
 echo "datanode3" | sudo tee -a $HADOOP_CONF_DIF/slaves > /dev/null
-echo "datanode4" | sudo tee -a $HADOOP_CONF_DIF/slaves > /dev/null
-echo "datanode5" | sudo tee -a $HADOOP_CONF_DIF/slaves > /dev/null
-echo "datanode6" | sudo tee -a $HADOOP_CONF_DIF/slaves > /dev/null
-echo "######################### Hadoop Settato #########################"
+echo "Hadoop Settato"
 
 sudo chown -R ubuntu $HADOOP_HOME
 
-#---> hdfs namenode -format
-#---> $HADOOP_HOME/sbin/start-dfs.sh
-#---> $HADOOP_HOME/sbin/start-yarn.sh
-#---> $HADOOP_HOME/sbin/mr-jobhistory-daemon.sh start historyserver
-
-# Spark setup
 # Spark setup
 
 wget -q https://downloads.apache.org/spark/spark-2.4.7/spark-2.4.7-bin-hadoop2.7.tgz > /dev/null
@@ -161,7 +146,7 @@ sudo cp spark/conf/spark-env.sh.template spark/conf/spark-env.sh
 echo export SPARK_MASTER_HOST=\"$PUBLIC_DNS\" | sudo tee -a spark/conf/spark-env.sh > /dev/null
 echo export HADOOP_CONF_DIR=\"home/ubuntu/hadoop/conf\" | sudo tee -a spark/conf/spark-env.sh > /dev/null
 echo export PYSPARK_PYTHON=python3 | sudo tee -a spark/conf/spark-env.sh > /dev/null
-echo "######################### Spark Settato #########################"
+echo "Spark Settato"
 
 # Setupping progetto e librerie
 
@@ -179,7 +164,6 @@ sudo pip3 --no-cache-dir install statistics > /dev/null
 
 sudo pip3 install matplotlib
 sudo pip3 install pickle5 
-sudo pip3 install 
 sudo pip3 install scipy
 
 
@@ -195,8 +179,4 @@ mv graphframes-0.8.1-spark2.4-s_2.11.jar spark/jars
 
 wget http://dl.bintray.com/spark-packages/maven/graphframes/graphframes/0.8.1-spark2.4-s_2.11/graphframes-0.8.1-spark2.4-s_2.11.jar
 
-#sudo spark/bin/spark-shell --packages graphframes:graphframes:0.8.1-spark2.4-s_2.11
-
-#sudo spark/bin/pyspark --packages graphframes:graphframes:0.7.0-spark2.3-s_2.11
-
-echo "######################### Macchina pronta #########################"
+echo "ok"
